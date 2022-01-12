@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:ace="http://www.icefaces.org/icefaces/components"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Лабораторная 3</title>
+    <h:outputStylesheet library="css" name="style_main.css"/>
+    <link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/resources/img/unicorn_ico.ico"/>
+</h:head>
+<h:body>
+    <div class="container">
+        <div class="header">
+            <h:link outcome="goToIndex" class="link">
+                На стартовую страницу
+            </h:link>
+        </div>
+
+        <div class="content">
+                <div class="left_container">
+                    <h:form id="main_form">
+
+                        <div class="x_input_area">
+                            <span id="span_x">Координата X</span> <br/>
+                            <div class="x_input">
+                                <ace:sliderEntry id="r" axis="x" min="-2" max="2" value="#{pointsContainer.pointBean.x}" stepPercent="25" showLabels="true"/>
+                            </div>
+                        </div>
+
+                        <div class="y_input_area">
+                            <span id="span_y">Координата Y (-3...5)</span> <br/>
+                            <div class="y_input">
+                                <h:inputText id="y" value="#{pointsContainer.pointBean.y}" maxlength="8" required="true" requiredMessage="Y нужно ввести" converterMessage="Y должен быть числом" styleClass="input_text">
+                                    <f:validator validatorId="yValidator"/>
+                                </h:inputText> <br/> <br/>
+                                <h:message styleClass="msg_error" for="y"/>
+                            </div>
+                        </div>
+
+                        <div class="r_input_area">
+                            <span id="span_r">Координата R</span> <br/>
+                            <div class="r_input">
+                                <h:panelGrid columns="10" styleClass="r_table" columnClasses=" , r_columns, , r_columns, , r_columns, , r_columns, , r_columns">
+                                    <h:outputLabel for="r_state1" id="r_val1" value="#{pointsContainer.pointBean.rVal1} "/>
+                                    <h:selectBooleanCheckbox value="#{pointsContainer.pointBean.rState1}" id="r_state1" onclick="cleanErrors(); cleanCanvas(); drawGraph(); updateGraph();"/>
+
+                                    <h:outputLabel for="r_state2" id="r_val2" value="#{pointsContainer.pointBean.rVal2} "/>
+                                    <h:selectBooleanCheckbox value="#{pointsContainer.pointBean.rState2}" id="r_state2" onclick="cleanErrors(); cleanCanvas(); drawGraph(); updateGraph();"/>
+
+                                    <h:outputLabel for="r_state3" id="r_val3" value="#{pointsContainer.pointBean.rVal3} "/>
+                                    <h:selectBooleanCheckbox value="#{pointsContainer.pointBean.rState3}" id="r_state3" onclick="cleanErrors(); cleanCanvas(); drawGraph(); updateGraph();"/>
+
+                                    <h:outputLabel for="r_state4" id="r_val4" value="#{pointsContainer.pointBean.rVal4} "/>
+                                    <h:selectBooleanCheckbox value="#{pointsContainer.pointBean.rState4}" id="r_state4" onclick="cleanErrors(); cleanCanvas(); drawGraph(); updateGraph();"/>
+
+                                    <h:outputLabel for="r_state5" id="r_val5" value="#{pointsContainer.pointBean.rVal5} "/>
+                                    <h:selectBooleanCheckbox value="#{pointsContainer.pointBean.rState5}" id="r_state5" onclick="cleanErrors(); cleanCanvas(); drawGraph(); updateGraph();"/>
+                                </h:panelGrid>
+                                <br/>
+                                <div id="err_r" class="msg_error"></div>
+                            </div>
+                        </div>
+
+                        <div class="btn_area">
+                            <h:commandButton id="submit_main_form" type="submit" action="#{pointsContainer.addPoint}" value="Отправить" styleClass="btns">
+                                <f:ajax render=":pointsTable" execute="main_form"/>
+                            </h:commandButton>
+                            <h:commandButton ajax="false" id="clean_btn" action="#{pointsContainer.clearTable}" value="Очистить таблицу" immediate="true" styleClass="btns">
+                                <f:ajax render=":pointsTable" execute="main_form"/>
+                            </h:commandButton>
+                        </div>
+
+                    </h:form>
+                </div>
+
+                <div class="right_container">
+                    <h:form id="canvas_form">
+                        <div id="graph">
+                            <ui:include id="inc" src="resources/img/canvas.html"/>
+                        </div>
+                        <h:inputText id="canvas_x_val" value="#{pointsContainer.canvasPointBean.canvasX}" style="display: none"/>
+                        <h:inputText id="canvas_y_val" value="#{pointsContainer.canvasPointBean.canvasY}" style="display: none"/>
+                        <h:inputText id="canvas_r_val" value="#{pointsContainer.canvasPointBean.canvasR}" style="display: none"/>
+                        <h:commandButton type="submit" id="canvas_submit" action="#{pointsContainer.canvasAddPoint}" style="display: none">
+                            <f:ajax render=":pointsTable" execute="canvas_form"/>
+                        </h:commandButton>
+                    </h:form>
+                </div>
+        </div>
+
+        <div class="bottom_container">
+                <h:panelGroup id="pointsTable">
+                    <h:dataTable id="table" value="#{pointsContainer.pointsList}" var="point">
+                        <h:column>
+                            <f:facet name="header">X</f:facet>
+                            #{point.x}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Y</f:facet>
+                            #{point.y}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">R</f:facet>
+                            #{point.r}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Hit</f:facet>
+                            #{point.hit}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Creation Time</f:facet>
+                            #{pointsContainer.formatter.format(point.creationDate)}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Working Time, ms</f:facet>
+                            #{point.workingTime}
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+        </div>
+    </div>
+    <script type="text/javascript" src="#{request.getContextPath()}/resources/js/Point.js">
+    </script>
+    <script type="text/javascript" src="#{request.getContextPath()}/resources/js/sripts.js">
+    </script>
+    <script type="text/javascript" src="#{request.getContextPath()}/resources/js/canvas.js">
+    </script>
+    <script type="text/javascript" src="#{request.getContextPath()}/resources/js/parseCoordinats.js">
+    </script>
+</h:body>
+</html>

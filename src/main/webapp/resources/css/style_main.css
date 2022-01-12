@@ -1,0 +1,154 @@
+body {
+    background-image:url("#{resource['img/unicorn3.jpg']}");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+body {
+    font-family: monospace;
+    color: black;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+}
+
+/*-------Главный контейнер--------*/
+
+.container {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+}
+
+.container > div {
+    display: flex;
+    padding: 1%;
+}
+
+/*---------3 основных блока----------*/
+
+.header {
+    margin: 1%;
+    justify-content: left;
+}
+
+.content {
+    justify-content: space-around;
+    margin: 2%;
+}
+
+.bottom_container {
+    justify-content: center;
+    margin: 1%;
+}
+
+/*-------------блок content----------------*/
+.left_container, .right_container {
+    background-color: rgba(238, 238, 238, 0.9);
+    width: 650px;
+    height: 650px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    border-radius: 24px;
+}
+
+#main_form {
+    padding: 2%;
+    height: 93%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.btn_area{
+    display: flex;
+    justify-content: space-around;
+}
+
+.x_input, .y_input, .r_input {
+    padding-top: 3%;
+}
+
+.r_table{
+    width: 70%;
+    border: 1px solid grey;
+    border-collapse: collapse;
+    display: flex;
+    justify-content: center;
+}
+
+.r_columns {
+    padding: 10px;
+}
+
+#span_x, #span_y, #span_r {
+    font-weight: bold;
+}
+
+#canvas_form {
+    padding: 1%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+#graph {
+    display: flex;
+    justify-content: center;
+}
+
+/*-----------------блок table----------------*/
+
+#pointsTable {
+    overflow: auto;
+    text-align: center;
+    width: 83%;
+    height: 600px;
+}
+
+#table {
+    width: 100%;
+    border: 1px solid grey;
+    border-collapse: collapse;
+    background-color: #eeeeee;
+}
+
+#table th, #table td {
+    padding: 10px;
+    font-size: 20px;
+    border: 1px solid grey;
+}
+
+.link:link, .link:visited {
+    background-color: #0063ca;
+    color: white;
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.link:hover, .link:active {
+    background-color: #0079e7;
+}
+
+.btns {
+    font-size: 18px;
+    font-family: monospace;
+    background-color: #0063ca;
+    padding: 10px;
+    width: 30%;
+    color: white;
+}
+
+.input_text {
+    font-family: monospace;
+    font-size: 18px;
+}
+
+.msg_error {
+    color: red;
+}
